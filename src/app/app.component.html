@@ -1,0 +1,25 @@
+<!-- import file -->
+
+<form>
+  <input type="file" (change)="uploadListener($event)" name="" id="">
+</form>
+
+<div *ngIf="jsonData">
+  <table class="table table-striped table-responsive">
+    <tr class="bg-primary text-light">
+      <th *ngFor="let key of keys">
+        {{key}}
+      </th>
+    </tr>
+
+    <tr *ngFor="let row of jsonData">
+      <td *ngFor="let key of keys">
+        {{row[key]}}
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+
+
