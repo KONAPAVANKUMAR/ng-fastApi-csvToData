@@ -13,23 +13,17 @@ export class AppComponent {
   keys: any = null;
   constructor(private http: HttpClient) { }
 
-  uploadListener($event: any): void {
-    let file: File = $event.target.files[0];
-    // formdata
-    let formData: FormData = new FormData();
-    formData.append('file', file, file.name);
-    // post
-    this.http.post('http://localhost:8000/api/upload', formData).subscribe(
+
+  //  on init
+  ngOnInit() {
+    this.http.get('http://127.0.0.1:8000/api/getcsvfileasjson').subscribe(
       (res) => {
         // stringify
         this.jsonData = res;
         console.log(this.jsonData)
         // get keys
         this.keys = Object.keys(this.jsonData[0]);
-      }
-    );
-
-
+      })
   }
 
 }

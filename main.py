@@ -1,6 +1,6 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-
+import os
 from io import BytesIO
 import pandas as pd
 import uvicorn
@@ -13,12 +13,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.post("/api/upload")
-async def upload(file: UploadFile = File(...)):
-    contents = await file.read()
-    buffer = BytesIO(contents)
-    df = pd.read_csv(buffer)
-    buffer.close()
+@app.get("/api/getcsvfileasjson")
+async def upload():
+    # get current directory
+    fileDirectory = os.getcwd()
+    # get all csv files from path
+    files = [f for f in os.listdir(fileDirectory) if f.endswith(".csv")]
+    file = files[0]
+    df = pd.read_csv(file)
     return df.to_dict(orient='records')
 
 uvicorn.run(app, host="localhost", port=8000)
